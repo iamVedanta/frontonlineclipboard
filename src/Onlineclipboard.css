@@ -158,3 +158,108 @@
   border: 2px solid #e2e8f0;
   border-radius: 8px;
 } 
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.section {
+  margin-top: 2rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-field {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.textarea-field {
+  min-height: 100px;
+}
+
+.button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-top: 3px solid #444;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.code-display,
+.data-display {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  word-break: break-word;
+}
+
+.code {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #00796b;
+}
+
+.error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+@media screen and (min-width: 600px) {
+  .input-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .input-field {
+    flex: 1;
+  }
+
+  .button {
+    width: 200px;
+  }
+}

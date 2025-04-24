@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import './Onlineclipboard.css';
+import "./Onlineclipboard.css";
 
 function Onlineclipboard() {
   const [clipboardData, setClipboardData] = useState("");
   const [recievedData, setRecievedData] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
   const [inputCode, setInputCode] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [isReceiving, setIsReceiving] = useState(false);
   const [error, setError] = useState("");
 
   async function sendClipboardData() {
@@ -15,20 +16,22 @@ function Onlineclipboard() {
       setError("Please enter some text to share");
       return;
     }
-    setIsLoading(true);
+    setIsSending(true);
     setError("");
     try {
-      const response = await Axios.post(`https://onlineclipboard-rq9w.onrender.com/postData`, {
-        data: clipboardData,
-        code: generatedCode,
-      });
+      const response = await Axios.post(
+        `https://onlineclipboard-rq9w.onrender.com/postData`,
+        {
+          data: clipboardData,
+          code: generatedCode,
+        }
+      );
       setGeneratedCode(response.data);
-      setError("");
     } catch (error) {
       setError("Failed to send data. Please try again.");
       console.error("Error sending clipboard data:", error);
     } finally {
-      setIsLoading(false);
+      setIsSending(false);
     }
   }
 
@@ -37,17 +40,19 @@ function Onlineclipboard() {
       setError("Please enter a code");
       return;
     }
-    setIsLoading(true);
+    setIsReceiving(true);
     setError("");
     try {
-      const response = await Axios.get(`https://onlineclipboard-rq9w.onrender.com/getData/${inputCode}`);
+      const response = await Axios.get(
+        `https://onlineclipboard-rq9w.onrender.com/getData/${inputCode}`
+      );
       setRecievedData(response.data);
-      setError("");
+      await navigator.clipboard.writeText(response.data);
     } catch (error) {
       setError("Failed to retrieve data. Please check the code and try again.");
       console.error("Error getting clipboard data:", error);
     } finally {
-      setIsLoading(false);
+      setIsReceiving(false);
     }
   }
 
@@ -64,15 +69,15 @@ function Onlineclipboard() {
             onChange={(e) => setClipboardData(e.target.value)}
             placeholder="Enter text to share..."
           />
-          <button 
+          <button
             className="button"
             onClick={sendClipboardData}
-            disabled={isLoading}
+            disabled={isSending}
           >
-            {isLoading ? (
+            {isSending ? (
               <div className="loading-spinner"></div>
             ) : (
-              'Code Kodappa'
+              "Code Kodappa"
             )}
           </button>
         </div>
@@ -95,15 +100,15 @@ function Onlineclipboard() {
             onChange={(e) => setInputCode(e.target.value)}
             placeholder="Enter code..."
           />
-          <button 
+          <button
             className="button get-button"
             onClick={getClipboardData}
-            disabled={isLoading}
+            disabled={isReceiving}
           >
-            {isLoading ? (
+            {isReceiving ? (
               <div className="loading-spinner"></div>
             ) : (
-              'Beku Andhre Click Maadu'
+              "Beku Andhre Click Maadu"
             )}
           </button>
         </div>
@@ -112,10 +117,7 @@ function Onlineclipboard() {
 
       {recievedData && (
         <div className="section">
-          <h2 className="section-title">Yelko Guru</h2>
-          <div className="data-display">
-            {recievedData}
-          </div>
+          <div className="data-display">{recievedData}</div>
         </div>
       )}
     </div>
